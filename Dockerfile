@@ -27,10 +27,11 @@ COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=build /app/src ./src
 
 # Install production dependencies
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
 
 # Expose the port and start the application
-EXPOSE 3000
+EXPOSE 8000
 CMD ["pnpm", "start"]
