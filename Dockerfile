@@ -26,6 +26,9 @@ ENV NODE_ENV=production
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
 
+# Copy public assets
+COPY --from=build /app/public ./public
+
 # Expose the port and start the application
 EXPOSE 8000
 CMD ["node", "server.js"]
