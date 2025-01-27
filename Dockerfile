@@ -22,16 +22,10 @@ FROM base AS deploy
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copy only the necessary files from the build stage
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=build /app/src ./src
-
-# Install production dependencies
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
+# Copy standalone output
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
 
 # Expose the port and start the application
 EXPOSE 8000
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]
