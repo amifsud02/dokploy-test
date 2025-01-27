@@ -26,5 +26,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            dokploy/example:latest
+            ghcr.io/${{ github.repository }}:latest
           platforms: linux/amd64
